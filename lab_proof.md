@@ -23,3 +23,21 @@
 2. **Dense Search Saturation:** In long documents, preamble and executive summary sections heavily reuse primary keyphrases (e.g., "Trustworthy AI"), filling up top vector ranks and pushing specific body text sections further down.
 
 **Mitigation:** Increasing `chunk_overlap` (e.g., 200 characters) prevents list fragmentation.
+
+---
+
+## 3. Cohere Rerank Comparison
+
+This section was added later and keeps the original proof above intact.
+
+| Question | Baseline Top Score | Cohere Top Score | Baseline Top Chunk Preview | Cohere Top Chunk Preview |
+| --- | ---: | ---: | --- | --- |
+| What are the four ethical principles for Trustworthy AI? | generated at runtime | generated at runtime | generated at runtime | generated at runtime |
+| What are the 7 key requirements for Trustworthy AI? | generated at runtime | generated at runtime | generated at runtime | generated at runtime |
+| What are the three components of Trustworthy AI? | generated at runtime | generated at runtime | generated at runtime | generated at runtime |
+| How is the weather today? | generated at runtime | generated at runtime | generated at runtime | generated at runtime |
+
+### Notes
+
+1. Baseline retrieval uses only OpenAI embeddings plus cosine similarity.
+2. Cohere reranking reorders the candidate chunks before generation.
