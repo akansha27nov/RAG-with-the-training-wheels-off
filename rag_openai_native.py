@@ -45,7 +45,7 @@ chunk_embeddings = get_embeddings_in_batches(chunk_texts)
 # Convert lists to numpy arrays for matrix operations
 chunk_matrix = np.array(chunk_embeddings)
 normed_chunk_matrix = chunk_matrix / np.linalg.norm(chunk_matrix, axis=1, keepdims=True)
-
+assert chunk_matrix.shape[0] == len(chunk_texts)
 # ======================================================
 # Step 3: Implement Vector Search
 # ======================================================

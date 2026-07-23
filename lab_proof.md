@@ -22,4 +22,4 @@
 1. **Chunk Boundary Fragmentation:** As demonstrated during development, inadequate chunk overlap (e.g., 50 characters) can sever enumerated lists across chunk boundaries. If Principle (i) is cut into Chunk A and Principles (ii)-(iv) are in Chunk B, dense search may only retrieve Chunk B. Strict prompt guardrails will then cause the LLM to output "I don't know" because the context only contains 3 of the 4 principles.
 2. **Dense Search Saturation:** In long documents, preamble and executive summary sections heavily reuse primary keyphrases (e.g., "Trustworthy AI"), filling up top vector ranks and pushing specific body text sections further down.
 
-**Mitigation:** Increasing `chunk_overlap` (e.g., 200 characters) prevents list fragmentation, while hybrid search (BM25 + Dense) ensures specific structural sections are surfaced reliably.
+**Mitigation:** Increasing `chunk_overlap` (e.g., 200 characters) prevents list fragmentation.
