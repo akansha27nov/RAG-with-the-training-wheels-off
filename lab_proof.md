@@ -28,16 +28,17 @@
 
 ## 3. Cohere Rerank Comparison
 
-This section was added later and keeps the original proof above intact.
+This section compares the initial vector-only retrieval against the two-stage Cohere reranking pipeline based on runtime execution logs.
 
 | Question | Baseline Top Score | Cohere Top Score | Baseline Top Chunk Preview | Cohere Top Chunk Preview |
-| --- | ---: | ---: | --- | --- |
-| What are the four ethical principles for Trustworthy AI? | generated at runtime | generated at runtime | generated at runtime | generated at runtime |
-| What are the 7 key requirements for Trustworthy AI? | generated at runtime | generated at runtime | generated at runtime | generated at runtime |
-| What are the three components of Trustworthy AI? | generated at runtime | generated at runtime | generated at runtime | generated at runtime |
-| How is the weather today? | generated at runtime | generated at runtime | generated at runtime | generated at runtime |
+| :--- | ---: | ---: | :--- | :--- |
+| **What are the four ethical principles for Trustworthy AI?** | `0.732` | `0.9536` | *amounts of digital data, major technologi cal advances in computational power...* | *24  More recently, the AI4Peopl e’s taskforce has surveyed the aforementioned EGE principles as well...* |
+| **What are the 7 key requirements for Trustworthy AI?** | `0.7413` | `0.9831` | *Trustworthy AI: (1) human agency and o versight, (2) technical robustness and s afety, (3) privacy a...* | *terms of gender, culture, age, but also in terms of professional backgrounds and skill sets....* |
+| **What are the three components of Trustworthy AI?** | `0.7794` | `0.9839` | *in its overall context that may or may not engender trust. Striving towards Trustworthy AI hence con...* | *in its overall context that may or may not engender trust. Striving towards Trustworthy AI hence con...* |
+| **How is the weather today?** | `0.1286` | `0.4665` | *such as an ageing population, growing social inequality  and environmental pollution. This potential...* | *https://ec.europa.eu/digital-single-market/en/news/alfred-virtual-assistant-helping-older-people-sta...* |
 
-### Notes
+### Key Observations & Edge Cases
 
-1. Baseline retrieval uses only OpenAI embeddings plus cosine similarity.
-2. Cohere reranking reorders the candidate chunks before generation.
+1. **Precision Boost (The Needle in the Haystack):** On the question regarding the "four ethical principles," base vector search buried the exact answer at **Original Rank #6**. The Cohere Reranker recognized the deep semantic relevance and elevated it immediately to **Rank #1** (`0.9536`), dramatically improving the context quality.
+2. **The "Top-K" Safety Net:** On the "7 key requirements" question, vector search successfully placed the exact list at Rank #1. Curiously, Cohere reranked a tangentially related chunk to Rank #1 (`0.9831`) and pushed the correct list down to Rank #2 (`0.9679`). The pipeline still answered perfectly because we passed the top 3 chunks to the LLM—proving why relying on a small *window* of reranked results is safer than relying solely on the #1 chunk.
+3. **Off-Topic Filtering:** For out-of-domain questions ("How is the weather today?"), both stages reflected low confidence scores (`0.1286` and `0.4665`). The absence of high-scoring context successfully triggered the prompt fallback (`"I don't know"`), preventing LLM hallucinations.
