@@ -1,3 +1,8 @@
+"""
+Central configuration for the RAG demo.
+Loads environment values and defines the bundled PDF path.
+"""
+
 import os
 from dotenv import load_dotenv
 

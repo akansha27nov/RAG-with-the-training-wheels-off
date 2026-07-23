@@ -1,3 +1,9 @@
+"""
+End-to-end native RAG pipeline for PDF.
+Loads chunks, embeds them, retrieves context, and answers questions.
+Author: Akansha Verma
+"""
+
 import os
 import numpy as np
 from openai import OpenAI

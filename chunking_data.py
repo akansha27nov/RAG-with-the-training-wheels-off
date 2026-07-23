@@ -1,3 +1,8 @@
+"""
+PDF loading and chunking utilities for the RAG demo.
+Turns the source document into overlapping LangChain chunks.
+"""
+
 from pypdf import PdfReader
 from config import PDF_PATH
 from langchain_core.documents import Document
